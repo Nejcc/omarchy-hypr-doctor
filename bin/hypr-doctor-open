@@ -1,0 +1,47 @@
+#!/bin/bash
+# Open FILE at LINE in the Omarchy default editor.
+# Usage: hypr-doctor-open [--print] FILE [LINE]
+# --print shows the command instead of running it (used by the tests).
+
+set -euo pipefail
+
+print=false
+if [[ ${1:-} == "--print" ]]; then
+  print=true
+  shift
+fi
+
+file=${1:?file required}
+line=${2:-0}
+[[ $line =~ ^[0-9]+$ ]] || line=0
+
+# Same lookup as omarchy-launch-editor, so the line syntax matches the editor
+# it will actually start.
+editor=nvim
+state="$HOME/.local/state/omarchy/defaults/editor"
+[[ -f $state ]] && read -r editor <"$state"
+command -v "$editor" >/dev/null 2>&1 || editor=nvim
+
+if ((line == 0)); then
+  args=("$file")
+else
+  case "${editor##*/}" in
+  nvim | vim | vi | nano | emacs | kak) args=("+$line" "$file") ;;
+  code | code-oss | codium | vscodium | cursor) args=(--goto "$file:$line") ;;
+  hx | helix | micro | zed | zeditor | subl) args=("$file:$line") ;;
+  # Unknown syntax: open the file rather than a new buffer named "file:12".
+  *) args=("$file") ;;
+  esac
+fi
+
+if command -v omarchy-launch-editor >/dev/null 2>&1; then
+  cmd=(omarchy-launch-editor "${args[@]}")
+else
+  cmd=(xdg-open "$file")
+fi
+
+if $print; then
+  printf '%s\n' "${cmd[@]}"
+else
+  exec "${cmd[@]}"
+fi

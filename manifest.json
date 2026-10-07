@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "nejcc.hypr-doctor",
+  "name": "Hypr Doctor",
+  "version": "0.1.0",
+  "author": "Nejcc",
+  "license": "MIT",
+  "description": "Shows Hyprland config errors in the bar, with a toast after a broken reload and a click that opens the file at the line",
+  "kinds": ["bar-widget"],
+  "entryPoints": { "barWidget": "BarWidget.qml" },
+  "barWidget": {
+    "displayName": "Hypr Doctor",
+    "description": "Hyprland config errors, hidden while the config is clean",
+    "category": "System",
+    "defaultSection": "right",
+    "allowMultiple": false
+  }
+}
