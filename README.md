@@ -31,6 +31,14 @@ Then add **Hypr Doctor** to the bar (it goes on the right by default).
 
 IPC: `omarchy-shell nejcc.hypr-doctor refresh|open|close|toggle`.
 
+## Uninstall
+
+```sh
+omarchy plugin remove nejcc.hypr-doctor
+```
+
+Nothing is left behind.
+
 ## Runtime deps
 
 Nothing new: `hyprctl`, `omarchy-notification-send` and
