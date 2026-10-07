@@ -85,6 +85,15 @@ function where(e) {
   return e.line > 0 ? baseName(e.file) + ":" + e.line : baseName(e.file)
 }
 
+// Show paths under the home folder as "~/…" (shorter, and screenshots don't
+// carry the user name).
+function tildePath(path, home) {
+  if (!home || !path) return path || ""
+  home = home.replace(/\/+$/, "")
+  if (path === home) return "~"
+  return path.indexOf(home + "/") === 0 ? "~" + path.slice(home.length) : path
+}
+
 // Toast body: the first error, plus how many more there are.
 function summary(errors) {
   if (!errors.length) return ""

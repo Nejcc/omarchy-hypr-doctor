@@ -108,3 +108,11 @@ test("bin/hypr-doctor-open uses the line syntax of the default editor", () => {
   assert.deepEqual(run("nvim", "/x.lua", "0"), ["omarchy-launch-editor", "/x.lua"])
   assert.deepEqual(run("nvim", "/x.lua", "$(id)"), ["omarchy-launch-editor", "/x.lua"])
 })
+
+test("tildePath shortens paths under home only", () => {
+  assert.equal(L.tildePath("/home/ana/.config/hypr/x.lua", "/home/ana"), "~/.config/hypr/x.lua")
+  assert.equal(L.tildePath("/home/ana/.config/hypr/x.lua", "/home/ana/"), "~/.config/hypr/x.lua")
+  assert.equal(L.tildePath("/home/anabel/x.lua", "/home/ana"), "/home/anabel/x.lua")
+  assert.equal(L.tildePath("/usr/share/x.lua", "/home/ana"), "/usr/share/x.lua")
+  assert.equal(L.tildePath("/usr/share/x.lua", ""), "/usr/share/x.lua")
+})

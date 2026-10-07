@@ -1,5 +1,6 @@
 pragma ComponentBehavior: Bound
 import QtQuick
+import Quickshell
 import qs.Commons
 import qs.Ui
 import "Logic.js" as Logic
@@ -128,7 +129,7 @@ Panel {
                 Text {
                   visible: row.modelData.file !== ""
                   width: parent.width
-                  text: row.modelData.file
+                  text: Logic.tildePath(row.modelData.file, Quickshell.env("HOME"))
                   textFormat: Text.PlainText
                   elide: Text.ElideMiddle
                   color: Qt.darker(root.foreground, 1.4)
